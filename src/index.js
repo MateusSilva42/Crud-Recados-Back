@@ -1,7 +1,16 @@
 import express from "express";
 //import { nextTemplateToken } from "sucrase/dist/types/parser/tokenizer";
 const app = express();
+
 app.use(express.json());
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
 
 //FUNÇÃO PARA CRIAR ID'S PARA OS USUÁRIOS E RECADOS
 let idUser = [];
