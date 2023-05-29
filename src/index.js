@@ -225,9 +225,19 @@ app.post("/criar-recado", loggedUser, validateNotesData, (req, res) => {
 
 //LISTAR RECADOS
 app.get("/listar-meus-recados", loggedUser, (req, res) => {
+  const queryParans = req.query;
+  const page = Number(queryParans.pagina) || 1;
+  const limit = 5;
+  const pageTotal = Math.ceil(currentUser.notes.length / limit);
+  const index = (page - 1) * limit;
+  const aux = [...currentUser.notes];
+  const result = aux.splice(index, limit);
+
   return res.status(200).json({
     Success: true,
-    Data: currentUser.notes,
+    PaginaAtual: page,
+    TotalPaginas: pageTotal,
+    Data: result,
     Message: "Listando com sucesso todas as notas do usuário atual.",
   });
 });
